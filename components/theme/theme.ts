@@ -3,13 +3,13 @@ import { createTheme } from "@mui/material/styles";
 import { colorSchemes } from "./palette";
 
 const theme = createTheme({
-  ...colorSchemes.dark,
+  ...colorSchemes.light,
   typography: {
     fontFamily: "Inter, sans-serif",
   },
   palette: {
-    ...colorSchemes.dark.palette,
-    mode: "dark",
+    ...colorSchemes.light.palette,
+    mode: "light",
   },
 })
 

@@ -1,0 +1,49 @@
+.formHeading {
+    font-size: 1.75rem !important;
+    font-weight: 800 !important;
+    text-align: left !important;
+    margin-top: 3rem !important;
+    margin-bottom: 2rem !important;
+    position: relative !important;
+    color: #0d0d0d !important;
+    background: linear-gradient(90deg, #007aff, #00c6ff) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    font-family: 'Inter', sans-serif !important;
+    letter-spacing: -0.5px !important;
+  
+    @media (max-width: 600px) {
+      font-size: 2rem !important;
+  
+      &::after {
+        width: 40px !important;
+        height: 3px !important;
+      }
+    }
+  }
+
+  // CreateEventForm.module.scss
+
+.container {
+    padding: 2rem !important;
+    margin-top: 2rem !important;
+    border-radius: 12px !important;
+    background-color: #eafff2 !important;
+  }
+  
+  .alert {
+    margin-bottom: 1rem !important;
+  }
+  
+  .form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem;
+  }
+  
+  .actions {
+    display: flex !important;
+    justify-content: flex-end !important;
+    margin-top: 1.5rem !important;
+  }
+  

@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "./globals.scss";
+import { Inter } from "next/font/google";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-import { ThemeProvider } from '@mui/material/styles';
-import {  theme } from "@/components/theme/theme";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "@/components/theme/theme";
+import { CssBaseline } from "@mui/material";
+import Box from "@mui/material/Box";
+import Navbar from "@/components/layout/navbar";
+import { EventProvider } from "@/context/event-context";
+import { UserProvider } from "@/context/user-context";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -27,9 +24,27 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={inter.className}>
         <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <UserProvider>
+              <EventProvider>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    minHeight: "100vh",
+                  }}
+                >
+                  <Navbar />
+                  <Box component="main" sx={{ flexGrow: 1 }}>
+                    {children}
+                  </Box>
+                </Box>
+              </EventProvider>
+            </UserProvider>
+          </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
     </html>
