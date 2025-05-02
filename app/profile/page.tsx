@@ -22,8 +22,8 @@ import {
 import { Event as EventIcon, LocationOn, Person } from "@mui/icons-material"
 import { useRouter } from "next/navigation"
 import { format } from "date-fns"
-import { useUser } from "@/context/user-context"
-import { useEvents } from "@/context/event-context"
+import { useUserStore } from "@/store/user-store"
+import { useEventStore } from "@/store/event-store"
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -49,8 +49,8 @@ function TabPanel(props: TabPanelProps) {
 
 export default function Profile() {
   const router = useRouter()
-  const { user, loading: userLoading, error: userError } = useUser()
-  const { events, loading: eventsLoading, error: eventsError } = useEvents()
+  const { user, loading: userLoading, error: userError } = useUserStore()
+  const { events, loading: eventsLoading, error: eventsError } = useEventStore()
   const [tabValue, setTabValue] = useState(0)
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {

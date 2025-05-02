@@ -1,9 +1,6 @@
 "use client";
 
-import { Container, Typography } from "@mui/material";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useEvents } from "@/context/event-context";
+import React from "react";
 import { Filters } from "@/components/dashboard/Filters";
 import { EventsGrid } from "@/components/dashboard/EventsGrid";
 import {
@@ -11,16 +8,21 @@ import {
   ErrorState,
   EmptyState,
 } from "@/components/dashboard/EventStates";
+
+import { useRouter } from "next/navigation";
+import { useEventStore } from "@/store/event-store";
+
+import { Container, Typography } from "@mui/material";
 import styles from "@/styles/dashboard.module.scss";
 
 export default function Dashboard() {
   const router = useRouter();
-  const { events, loading, error } = useEvents();
+  const { events, loading, error } = useEventStore();
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [hostFilter, setHostFilter] = useState("");
-  const [startDateFilter, setStartDateFilter] = useState<Date | null>(null);
-  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = React.useState<string>("");
+  const [hostFilter, setHostFilter] = React.useState<string>("");
+  const [startDateFilter, setStartDateFilter] = React.useState<Date | null>(null);
+  const [page, setPage] = React.useState<number>(1);
 
   const eventsPerPage = 6;
 
@@ -49,6 +51,7 @@ export default function Dashboard() {
   });
 
   const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
+
   const paginatedEvents = filteredEvents.slice(
     (page - 1) * eventsPerPage,
     page * eventsPerPage
@@ -73,6 +76,7 @@ export default function Dashboard() {
       >
         Upcoming Events
       </Typography>
+
       <Filters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -99,3 +103,4 @@ export default function Dashboard() {
     </Container>
   );
 }
+

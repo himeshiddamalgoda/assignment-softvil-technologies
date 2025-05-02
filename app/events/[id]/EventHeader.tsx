@@ -1,5 +1,4 @@
-// components/EventHeader.tsx
-"use client"
+"use client";
 
 import {
   Box,
@@ -11,72 +10,88 @@ import {
   DialogActions,
   Button,
   CircularProgress,
-} from "@mui/material"
-import { Edit, Delete } from "@mui/icons-material"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { Event } from "@/lib/models/events"
+} from "@mui/material";
+import { Edit, Delete } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { Event } from "@/lib/mock-data";
+import { useEventStore } from "@/store/event-store";
 
 interface EventHeaderProps {
-  event: Event
-  isHost: boolean
-  onDelete: (eventId: string) => Promise<void>
+  event: Event;
+  isHost: boolean;
 }
 
-export default function EventHeader({
-  event,
-  isHost,
-  onDelete,
-}: EventHeaderProps) {
-  const router = useRouter()
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const [deleteLoading, setDeleteLoading] = useState(false)
+export default function EventHeader({ event, isHost }: EventHeaderProps) {
+  const router = useRouter();
+  const { deleteEvent } = useEventStore();
+  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = React.useState<boolean>(false);
 
   const handleEdit = () => {
-    router.push(`/events/edit/${event?.id}`)
-  }
+    router.push(`/events/edit/${event?.id}`);
+  };
 
   const handleDeleteConfirm = async () => {
     try {
-      setDeleteLoading(true)
-      await onDelete(event?.id)
-      setDeleteDialogOpen(false)
-      router.push("/")
+      setDeleteLoading(true);
+      await deleteEvent(event?.id);
+      setDeleteDialogOpen(false);
+      router.push("/");
     } catch (error) {
-      console.error("Failed to delete event:", error)
-      setDeleteLoading(false)
+      console.error("Failed to delete event:", error);
+      setDeleteLoading(false);
     }
-  }
+  };
 
   return (
     <>
       <Box
         sx={{
           height: 300,
-          backgroundImage: `url(${event?.imageUrl || "/placeholder.svg?height=300&width=1200"})`,
+          backgroundImage: `url(${
+            event?.imageUrl || "/placeholder.svg?height=300&width=1200"
+          })`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           position: "relative",
         }}
       >
         {isHost && (
-          <Box sx={{ position: "absolute", top: 16, right: 16, display: "flex", gap: 1 }}>
-            <IconButton onClick={handleEdit} sx={{ bgcolor: "background.paper" }}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: 16,
+              right: 16,
+              display: "flex",
+              gap: 1,
+            }}
+          >
+            <IconButton
+              onClick={handleEdit}
+              sx={{ bgcolor: "background.paper" }}
+            >
               <Edit />
             </IconButton>
-            <IconButton onClick={() => setDeleteDialogOpen(true)} sx={{ bgcolor: "background.paper" }}>
+            <IconButton
+              onClick={() => setDeleteDialogOpen(true)}
+              sx={{ bgcolor: "background.paper" }}
+            >
               <Delete />
             </IconButton>
           </Box>
         )}
       </Box>
 
-      {/* Delete confirmation dialog */}
-      <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+      >
         <DialogTitle>Delete Event</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this event? This action cannot be undone.
+            Are you sure you want to delete this event? This action cannot be
+            undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -92,5 +107,5 @@ export default function EventHeader({
         </DialogActions>
       </Dialog>
     </>
-  )
+  );
 }

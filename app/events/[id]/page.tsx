@@ -1,22 +1,38 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import React from "react"
 import { useParams, useRouter } from "next/navigation"
-import { Container, Alert, Button, CircularProgress } from "@mui/material"
-import { useEvents } from "@/context/event-context"
-import { useUser } from "@/context/user-context"
-import EventDetail from "./EventDetails"
+import { Container, Alert, Button, CircularProgress, Paper } from "@mui/material"
+import { useEventStore } from "@/store/event-store"
+import { useUserStore } from "@/store/user-store"
+import { Event } from "@/lib/mock-data"
+import EventHeader from "./EventHeader"
+import EventInfo from "./EventInfo"
+import EventActions from "./EventActions"
+import AttendeesList from "./AttendeesList"
 
 export default function EventDetailPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
-  const { getEvent, loading, error, attendEvent, cancelAttendance, deleteEvent } = useEvents()
-  const { user } = useUser()
-  const [event, setEvent] = useState(getEvent(id as string))
+  const { fetchEvent, loading, error, attendEvent, cancelAttendance } = useEventStore()
+  const { user } = useUserStore()
+  const [event, setEvent] = React.useState<Event | null>(null)
 
-  useEffect(() => {
-    setEvent(getEvent(id as string))
-  }, [id, getEvent])
+  React.useEffect(() => {
+    const controller = new AbortController()
+
+    const fetch = async(id: string) => {
+      const eventData = await fetchEvent(id)
+      setEvent(eventData)
+    }
+    if (id) {
+      fetch(id)
+    }
+    return () => {
+      controller.abort()
+    }
+  }, [id, fetchEvent])
+
 
   if (loading) {
     return (
@@ -50,12 +66,18 @@ export default function EventDetailPage() {
   }
 
   return (
-    <EventDetail
-      event={event}
-      user={user}
-      attendEvent={attendEvent}
-      cancelAttendance={cancelAttendance}
-      deleteEvent={deleteEvent}
-    />
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Paper elevation={2}>
+        <EventHeader event={event} isHost={user?.id === event.hostId} />
+        <EventInfo event={event} />
+        <EventActions
+          event={event}
+          user={user}
+          attendEvent={attendEvent}
+          cancelAttendance={cancelAttendance}
+        />
+        <AttendeesList event={event} />
+      </Paper>
+    </Container>
   )
 }

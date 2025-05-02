@@ -7,8 +7,8 @@ import { theme } from "@/components/theme/theme";
 import { CssBaseline } from "@mui/material";
 import Box from "@mui/material/Box";
 import Navbar from "@/components/layout/navbar";
-import { EventProvider } from "@/context/event-context";
-import { UserProvider } from "@/context/user-context";
+import StoreInitializer from "@/components/store-initializer";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,27 +25,30 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <UserProvider>
-              <EventProvider>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    minHeight: "100vh",
-                  }}
-                >
-                  <Navbar />
-                  <Box component="main" sx={{ flexGrow: 1 }}>
-                    {children}
-                  </Box>
+        <ErrorBoundary>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <StoreInitializer />{/* for using zustand state management*/}
+              {/* <UserProvider>
+              <EventProvider> */}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  minHeight: "100vh",
+                }}
+              >
+                <Navbar />
+                <Box component="main" sx={{ flexGrow: 1 }}>
+                  {children}
                 </Box>
-              </EventProvider>
-            </UserProvider>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+              </Box>
+              {/* </EventProvider>
+            </UserProvider> */}
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

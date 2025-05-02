@@ -1,0 +1,153 @@
+export interface User {
+    id: string
+    name: string
+    email: string
+    avatarUrl?: string
+    hostedEvents?: string[]
+    attendingEvents?: string[]
+  }
+  
+  export interface Attendee {
+    userId: string
+    userName: string
+    avatarUrl?: string
+    status: "confirmed" | "pending" | "cancelled"
+  }
+  
+  export interface Event {
+    id: string
+    title: string
+    description: string
+    location: string
+    startDate: string
+    endDate: string
+    hostId: string
+    hostName: string
+    imageUrl?: string
+    capacity: number
+    attendees?: Attendee[]
+    createdAt: string
+    updatedAt: string
+  }
+
+  export const mockUsers: User[] = [
+    {
+      id: "user-1",
+      name: "John Doe",
+      email: "john@example.com",
+      avatarUrl: "https://i.pravatar.cc/150?img=3",
+      hostedEvents: ["event-1", "event-2"],
+      attendingEvents: ["event-3", "event-4"],
+    },
+    {
+      id: "user-2",
+      name: "Jane Smith",
+      email: "jane@example.com",
+      avatarUrl: "https://i.pravatar.cc/150?img=1",
+      hostedEvents: [],
+      attendingEvents: ["event-1", "event-2"],
+    },
+    {
+      id: "user-3",
+      name: "Bob Johnson",
+      email: "bob@example.com",
+      avatarUrl: "https://i.pravatar.cc/150?img=2",
+      hostedEvents: [],
+      attendingEvents: ["event-1"],
+    },
+    {
+      id: "user-4",
+      name: "Alice Williams",
+      email: "alice@example.com",
+      avatarUrl: "https://i.pravatar.cc/150?img=4",
+      hostedEvents: [],
+      attendingEvents: ["event-2"],
+    },
+    {
+      id: "user-5",
+      name: "Sarah Miller",
+      email: "sarah@example.com",
+      avatarUrl: "https://i.pravatar.cc/150?img=5",
+      hostedEvents: ["event-3"],
+      attendingEvents: [],
+    },
+    {
+      id: "user-6",
+      name: "Michael Brown",
+      email: "michael@example.com",
+      avatarUrl: "https://i.pravatar.cc/150?img=6",
+      hostedEvents: ["event-4"],
+      attendingEvents: [],
+    },
+  ]
+  
+  // Mock events data
+  export const mockEvents: Event[] = [
+    {
+      id: "event-1",
+      title: "Tech Conference 2023",
+      description: "Annual technology conference featuring the latest innovations",
+      location: "San Francisco, CA",
+      startDate: "2023-11-15T09:00:00Z",
+      endDate: "2023-11-17T18:00:00Z",
+      hostId: "user-1",
+      hostName: "John Doe",
+      imageUrl: "https://picsum.photos/200/300?random=1",
+      capacity: 500,
+      attendees: [
+        { userId: "user-2", userName: "Jane Smith", status: "confirmed" },
+        { userId: "user-3", userName: "Bob Johnson", status: "confirmed" },
+      ],
+      createdAt: "2023-08-01T12:00:00Z",
+      updatedAt: "2023-08-15T14:30:00Z",
+    },
+    {
+      id: "event-2",
+      title: "Design Workshop",
+      description: "Hands-on workshop for UX/UI designers",
+      location: "New York, NY",
+      startDate: "2023-12-05T10:00:00Z",
+      endDate: "2023-12-05T16:00:00Z",
+      hostId: "user-1",
+      hostName: "John Doe",
+      imageUrl: "https://picsum.photos/200/300?random=2",
+      capacity: 50,
+      attendees: [{ userId: "user-4", userName: "Alice Williams", status: "confirmed" }],
+      createdAt: "2023-09-10T09:15:00Z",
+      updatedAt: "2023-09-10T09:15:00Z",
+    },
+    {
+      id: "event-3",
+      title: "Networking Mixer",
+      description: "Evening networking event for professionals",
+      location: "Chicago, IL",
+      startDate: "2023-11-20T18:00:00Z",
+      endDate: "2023-11-20T21:00:00Z",
+      hostId: "user-5",
+      hostName: "Sarah Miller",
+      imageUrl: "https://picsum.photos/200/300?random=3",
+      capacity: 100,
+      attendees: [
+        { userId: "user-1", userName: "John Doe", status: "confirmed" },
+        { userId: "user-2", userName: "Jane Smith", status: "pending" },
+      ],
+      createdAt: "2023-10-01T11:30:00Z",
+      updatedAt: "2023-10-05T16:45:00Z",
+    },
+    {
+      id: "event-4",
+      title: "Product Launch",
+      description: "Exclusive launch event for our new product line",
+      location: "Austin, TX",
+      startDate: "2023-12-15T14:00:00Z",
+      endDate: "2023-12-15T17:00:00Z",
+      hostId: "user-6",
+      hostName: "Michael Brown",
+      imageUrl: "https://picsum.photos/200/300?random=4",
+      capacity: 200,
+      attendees: [{ userId: "user-1", userName: "John Doe", status: "confirmed" }],
+      createdAt: "2023-10-20T08:00:00Z",
+      updatedAt: "2023-10-25T13:20:00Z",
+    },
+  ]
+  

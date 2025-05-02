@@ -16,7 +16,7 @@ import MenuItem from "@mui/material/MenuItem"
 import EventIcon from "@mui/icons-material/Event"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { useUser } from "@/context/user-context"
+import { useUserStore } from "@/store/user-store"
 import styles from "@/styles/navbar.module.scss"
 
 const pages = [
@@ -27,7 +27,7 @@ const pages = [
 function Navbar() {
   const pathname = usePathname()
   const router = useRouter()
-  const { user } = useUser()
+  const { user } = useUserStore()
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)

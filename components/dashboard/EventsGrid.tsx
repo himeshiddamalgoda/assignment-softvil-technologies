@@ -1,7 +1,8 @@
 import { Grid, Box, Pagination } from "@mui/material";
 import { EventCard } from "./EventCard";
-import { Event } from "@/lib/models/events";
 import styles from "@/styles/dashboard.module.scss";
+import { Event } from "@/lib/mock-data";
+
 export function EventsGrid({
   events,
   page,
@@ -20,7 +21,7 @@ export function EventsGrid({
       <Grid container spacing={3} rowSpacing={3}>
         {events.map((event) => (
           <Grid
-            item
+            component="div"
             key={event.id}
             size={{ xs: 12, sm: 6, md: 4 }}
             className={styles.cardWrapper}

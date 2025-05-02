@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import { Event as EventIcon, LocationOn, Person } from "@mui/icons-material";
-import { Event } from "@/lib/models/events";
 import styles from '@/styles/dashboard.module.scss'
+import { Event } from "@/lib/mock-data";
 
 export function EventCard({
   event,

@@ -1,3 +1,7 @@
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { Search } from "@mui/icons-material";
 import {
   Grid,
   TextField,
@@ -6,13 +10,9 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from "@mui/material"
-import { DatePicker } from "@mui/x-date-pickers/DatePicker"
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
-import { Search } from "@mui/icons-material"
-import { Box } from "@mui/material"
-import styles from "@/styles/dashboard.module.scss"
+  Box,
+} from "@mui/material";
+import styles from "@/styles/dashboard.module.scss";
 
 export function Filters({
   searchTerm,
@@ -23,18 +23,18 @@ export function Filters({
   setStartDateFilter,
   uniqueHosts,
 }: {
-  searchTerm: string
-  setSearchTerm: (val: string) => void
-  hostFilter: string
-  setHostFilter: (val: string) => void
-  startDateFilter: Date | null
-  setStartDateFilter: (val: Date | null) => void
-  uniqueHosts: { id: string; name: string }[]
+  searchTerm: string;
+  setSearchTerm: (val: string) => void;
+  hostFilter: string;
+  setHostFilter: (val: string) => void;
+  startDateFilter: Date | null;
+  setStartDateFilter: (val: Date | null) => void;
+  uniqueHosts: { id: string; name: string }[];
 }) {
   return (
     <Box className={styles.filtersWrapper}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid component="div" size={{ xs: 12, sm: 6, md: 4 }}>
           <TextField
             className={styles.input}
             size="small"
@@ -52,9 +52,9 @@ export function Filters({
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <FormControl className={styles.input} size="small" >
-            <InputLabel id="host-filter-label" >Filter by Host</InputLabel>
+        <Grid component="div" size={{ xs: 12, sm: 6, md: 4 }}>
+          <FormControl className={styles.input} size="small">
+            <InputLabel id="host-filter-label">Filter by Host</InputLabel>
             <Select
               labelId="host-filter-label"
               id="host-filter"
@@ -62,7 +62,7 @@ export function Filters({
               label="Filter by Host"
               onChange={(e) => setHostFilter(e.target.value)}
             >
-              <MenuItem  value="">
+              <MenuItem value="">
                 <em>All Hosts</em>
               </MenuItem>
               {uniqueHosts.map((host) => (
@@ -73,7 +73,7 @@ export function Filters({
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid component="div" size={{ xs: 12, sm: 6, md: 4 }}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label="Events after date"
@@ -83,7 +83,7 @@ export function Filters({
                 textField: {
                   className: styles.input,
                   size: "small",
-                  // fullWidth: true,
+                  fullWidth: true,
                 },
               }}
             />
@@ -91,5 +91,5 @@ export function Filters({
         </Grid>
       </Grid>
     </Box>
-  )
+  );
 }

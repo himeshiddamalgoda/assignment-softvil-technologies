@@ -1,21 +1,21 @@
-import { Box, Button, CircularProgress } from "@mui/material"
+import { Box, Button } from "@mui/material"
 import { Share } from "@mui/icons-material"
+import { Attendee } from "@/lib/mock-data"
 
 interface EventActionsProps {
   event: any
   user: any
-  attendLoading: boolean
   attendEvent: (eventId: string, userId: string) => void
   cancelAttendance: (eventId: string, userId: string) => void
 }
 
-const EventActions = ({ event, user, attendLoading, attendEvent, cancelAttendance }: EventActionsProps) => {
+const EventActions = ({ event, user, attendEvent, cancelAttendance }: EventActionsProps) => {
   const isAttending = event.attendees.some(
-    (attendee) => attendee.userId === user?.id && attendee.status === "confirmed"
+    (attendee:Attendee) => attendee.userId === user?.id && attendee.status === "confirmed"
   )
-  const isPending = event.attendees.some((attendee) => attendee.userId === user?.id && attendee.status === "pending")
+  const isPending = event.attendees.some((attendee:Attendee) => attendee.userId === user?.id && attendee.status === "pending")
   const isCancelled = event.attendees.some(
-    (attendee) => attendee.userId === user?.id && attendee.status === "cancelled"
+    (attendee:Attendee) => attendee.userId === user?.id && attendee.status === "cancelled"
   )
 
   const handleAttend = () => {
@@ -32,9 +32,9 @@ const EventActions = ({ event, user, attendLoading, attendEvent, cancelAttendanc
         <Button
           variant="contained"
           size="large"
-          disabled={attendLoading}
+          // disabled={attendLoading}
           onClick={handleAttend}
-          startIcon={attendLoading ? <CircularProgress size={20} /> : null}
+          // startIcon={attendLoading ? <CircularProgress size={20} /> : null}
         >
           Attend Event
         </Button>
@@ -43,9 +43,9 @@ const EventActions = ({ event, user, attendLoading, attendEvent, cancelAttendanc
           variant="outlined"
           color="error"
           size="large"
-          disabled={attendLoading}
+          // disabled={attendLoading}
           onClick={handleCancelAttendance}
-          startIcon={attendLoading ? <CircularProgress size={20} /> : null}
+          // startIcon={attendLoading ? <CircularProgress size={20} /> : null}
         >
           {isCancelled ? "Cancelled" : "Cancel Attendance"}
         </Button>
