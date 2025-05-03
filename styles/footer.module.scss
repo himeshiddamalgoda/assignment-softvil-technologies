@@ -1,0 +1,35 @@
+.footer {
+    background-color: #ffffff !important;
+    color: #555 !important;
+    border-top: 1px solid #e0e0e0 !important;
+  
+    .MuiToolbar-root {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: space-between !important;
+      padding: 1rem 0 !important;
+    }
+  }
+  
+  .social {
+    display: flex !important;
+    gap: 0.5rem !important;
+  
+    a,
+    button {
+      color: inherit !important;
+      transition: color 0.2s ease !important;
+  
+      &:hover {
+        color: #1976d2 !important;
+      }
+    }
+  }
+  
+  .copy {
+    flex-basis: 100% !important;
+    text-align: center !important;
+    margin-top: 0.5rem !important;
+    font-size: 0.75rem !important;
+    color: #888 !important;
+  }

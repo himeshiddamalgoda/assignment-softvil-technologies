@@ -1,37 +1,47 @@
-import { Box, Button } from "@mui/material"
-import { Share } from "@mui/icons-material"
-import { Attendee } from "@/lib/mock-data"
+import { Box, Button } from "@mui/material";
+import { Share } from "@mui/icons-material";
+import { Attendee } from "@/lib/mock-data";
 
 interface EventActionsProps {
-  event: any
-  user: any
-  attendEvent: (eventId: string, userId: string) => void
-  cancelAttendance: (eventId: string, userId: string) => void
+  event: any;
+  user: any;
+  attendEvent: (eventId: string, userId: string) => void;
+  cancelAttendance: (eventId: string, userId: string) => void;
 }
 
-const EventActions = ({ event, user, attendEvent, cancelAttendance }: EventActionsProps) => {
+const EventActions = ({
+  event,
+  user,
+  attendEvent,
+  cancelAttendance,
+}: EventActionsProps) => {
   const isAttending = event.attendees.some(
-    (attendee:Attendee) => attendee.userId === user?.id && attendee.status === "confirmed"
-  )
-  const isPending = event.attendees.some((attendee:Attendee) => attendee.userId === user?.id && attendee.status === "pending")
+    (attendee: Attendee) =>
+      attendee.userId === user?.id && attendee.status === "confirmed"
+  );
+  const isPending = event.attendees.some(
+    (attendee: Attendee) =>
+      attendee.userId === user?.id && attendee.status === "pending"
+  );
   const isCancelled = event.attendees.some(
-    (attendee:Attendee) => attendee.userId === user?.id && attendee.status === "cancelled"
-  )
+    (attendee: Attendee) =>
+      attendee.userId === user?.id && attendee.status === "cancelled"
+  );
 
   const handleAttend = () => {
-    attendEvent(event.id, user.id)
-  }
+    attendEvent(event.id, user.id);
+  };
 
   const handleCancelAttendance = () => {
-    cancelAttendance(event.id, user.id)
-  }
+    cancelAttendance(event.id, user.id);
+  };
 
   return (
-    <Box sx={{ mt: 4, display: "flex", gap: 2 }}>
+    <Box sx={{ mx: "15px", display: "flex", gap: 2 }}>
       {!isAttending && !isPending && !isCancelled ? (
         <Button
           variant="contained"
-          size="large"
+          size="small"
           // disabled={attendLoading}
           onClick={handleAttend}
           // startIcon={attendLoading ? <CircularProgress size={20} /> : null}
@@ -42,7 +52,7 @@ const EventActions = ({ event, user, attendEvent, cancelAttendance }: EventActio
         <Button
           variant="outlined"
           color="error"
-          size="large"
+          size="small"
           // disabled={attendLoading}
           onClick={handleCancelAttendance}
           // startIcon={attendLoading ? <CircularProgress size={20} /> : null}
@@ -50,11 +60,16 @@ const EventActions = ({ event, user, attendEvent, cancelAttendance }: EventActio
           {isCancelled ? "Cancelled" : "Cancel Attendance"}
         </Button>
       )}
-      <Button variant="outlined" startIcon={<Share />} onClick={() => navigator.clipboard.writeText(window.location.href)}>
+      <Button
+        variant="outlined"
+        size="small"  
+        startIcon={<Share />}
+        onClick={() => navigator.clipboard.writeText(window.location.href)}
+      >
         Share
       </Button>
     </Box>
-  )
-}
+  );
+};
 
-export default EventActions
+export default EventActions;

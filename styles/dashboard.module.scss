@@ -7,6 +7,7 @@
     position: relative !important;
     color: #0d0d0d !important;
     background: linear-gradient(90deg, #007aff, #00c6ff) !important;
+    background-clip: text;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     font-family: 'Inter', sans-serif !important;
@@ -30,17 +31,6 @@
     background-color: "#eafff2" !important;
   }
   
-  .cardWrapper {
-    // background-color: #ffffff !important;
-    // border-radius: 12px !important;
-    // box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
-    // transition: transform 0.2s ease, box-shadow 0.2s ease !important;
-    // padding: 1rem !important;
-    // // width: 100% !important; // ensures it fills the grid column
-  
-  
-   
-  }
 
   .card {
     height: 100% !important;

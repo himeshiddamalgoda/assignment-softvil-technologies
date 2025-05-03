@@ -8,9 +8,10 @@ import {
   Stack,
   Chip,
 } from "@mui/material";
+import { motion } from "motion/react";
 import { format } from "date-fns";
 import { Event as EventIcon, LocationOn, Person } from "@mui/icons-material";
-import styles from '@/styles/dashboard.module.scss'
+import styles from "@/styles/dashboard.module.scss";
 import { Event } from "@/lib/mock-data";
 
 export function EventCard({
@@ -23,13 +24,20 @@ export function EventCard({
   return (
     <Card className={styles.card}>
       <CardActionArea onClick={() => onClick(event.id)}>
-        <CardMedia
-          component="img"
-          height="160"
-          image={event.imageUrl || "/placeholder.svg?height=140&width=300"}
-          alt={event.title}
-          className={styles.image}
-        />
+        <motion.div
+          initial={{ filter: "blur(15px)", opacity: 0.1 }}
+          animate={{ filter: "blur(0px)", opacity: 1 }}
+          transition={{ duration: 1, easing: "ease-out" }}
+          style={{ display: "contents" }}
+        >
+          <CardMedia
+            component="img"
+            height="160"
+            image={event.imageUrl || "/placeholder.svg?height=140&width=300"}
+            alt={event.title}
+            className={styles.image}
+          />
+        </motion.div>
         <CardContent className={styles.content}>
           <Typography variant="h6" className={styles.title}>
             {event.title}

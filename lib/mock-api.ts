@@ -1,33 +1,6 @@
 import { AxiosResponse } from "axios";
 import { Attendee, Event, mockEvents, mockUsers, User } from "./mock-data";
 
-// Define types for User and Event
-// interface User {
-//   id: string;
-//   name: string;
-//   email: string;
-//   avatarUrl?: string;
-// }
-
-// interface Attendee {
-//   userId: string;
-//   userName: string;
-//   avatarUrl?: string;
-//   status: string;
-// }
-
-// interface Event {
-//   id: string;
-//   title: string;
-//   description: string;
-//   location: string;
-//   startTime: string;
-//   endTime: string;
-//   createdAt: string;
-//   updatedAt: string;
-//   attendees?: Attendee[];
-// }
-
 // Helper to simulate API delay
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -133,7 +106,6 @@ export const eventApi = {
       if (!event) {
         throw new Error("Event not found");
       }
-
       return await createResponse(event);
     } catch (error) {
       console.error(`Error fetching event ${id}:`, error);

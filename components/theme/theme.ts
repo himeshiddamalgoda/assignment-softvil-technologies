@@ -11,23 +11,14 @@ const theme = createTheme({
     ...colorSchemes.light.palette,
     mode: "light",
   },
+  components: {
+    MuiPopover: {
+      defaultProps: {
+        disableScrollLock: true,  
+      },
+    },
+  },
 })
 
-const darkTheme = createTheme({
-  ...colorSchemes.dark,
-  palette: {
-    ...colorSchemes.dark.palette,
-    mode: "dark",
-  },
-});
 
-const lightTheme = createTheme({
-  ...colorSchemes.light,
-  palette: {
-    ...colorSchemes.light.palette,
-    mode: "light",
-  },
-});
-
-
-export { theme, darkTheme, lightTheme };
+export { theme };

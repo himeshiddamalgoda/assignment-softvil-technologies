@@ -8,6 +8,7 @@ import {
   ErrorState,
   EmptyState,
 } from "@/components/dashboard/EventStates";
+import { motion } from "motion/react";
 
 import { useRouter } from "next/navigation";
 import { useEventStore } from "@/store/event-store";
@@ -77,6 +78,12 @@ export default function Dashboard() {
         Upcoming Events
       </Typography>
 
+      <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 1.2, easing: "ease-out" }}
+        >
       <Filters
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -86,12 +93,19 @@ export default function Dashboard() {
         setStartDateFilter={setStartDateFilter}
         uniqueHosts={uniqueHosts}
       />
+      </motion.div>
 
       {loading && <LoadingState />}
       {error && <ErrorState error={error} />}
       {!loading && filteredEvents.length === 0 && <EmptyState />}
 
       {!loading && filteredEvents.length > 0 && (
+         <motion.div
+         initial={{ opacity: 0, y: 20 }}
+         animate={{ opacity: 1, y: 0 }}
+         exit={{ opacity: 0, y: -20 }}
+         transition={{ duration: 1, easing: "ease-out" }}
+       >
         <EventsGrid
           events={paginatedEvents}
           page={page}
@@ -99,6 +113,7 @@ export default function Dashboard() {
           onPageChange={handlePageChange}
           onCardClick={handleCardClick}
         />
+        </motion.div>
       )}
 
       {/* <TestErrorComponent /> */}

@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Navbar from "@/components/layout/navbar";
 import StoreInitializer from "@/components/store-initializer";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import Footer from "@/components/layout/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -43,6 +44,7 @@ export default function RootLayout({
                 <Box component="main" sx={{ flexGrow: 1 }}>
                   {children}
                 </Box>
+                <Footer/>
               </Box>
               {/* </EventProvider>
             </UserProvider> */}

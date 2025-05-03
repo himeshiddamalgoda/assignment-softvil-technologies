@@ -1,45 +1,54 @@
-"use client"
+"use client";
 
-import React from "react"
-import { useParams, useRouter } from "next/navigation"
-import { Container, Alert, Button, CircularProgress, Paper } from "@mui/material"
-import { useEventStore } from "@/store/event-store"
-import { useUserStore } from "@/store/user-store"
-import { Event } from "@/lib/mock-data"
-import EventHeader from "./EventHeader"
-import EventInfo from "./EventInfo"
-import EventActions from "./EventActions"
-import AttendeesList from "./AttendeesList"
+import React from "react";
+import { useParams, useRouter } from "next/navigation";
+import {
+  Container,
+  Alert,
+  Button,
+  CircularProgress,
+  Paper,
+  Typography,
+} from "@mui/material";
+import { motion } from "motion/react";
+import { useEventStore } from "@/store/event-store";
+import { useUserStore } from "@/store/user-store";
+import { Event } from "@/lib/mock-data";
+import EventHeader from "./EventHeader";
+import EventInfo from "./EventInfo";
+import EventActions from "./EventActions";
+import AttendeesList from "./AttendeesList";
+import styles from "@/styles/eventdetail.module.scss";
 
 export default function EventDetailPage() {
-  const { id } = useParams<{ id: string }>()
-  const router = useRouter()
-  const { fetchEvent, loading, error, attendEvent, cancelAttendance } = useEventStore()
-  const { user } = useUserStore()
-  const [event, setEvent] = React.useState<Event | null>(null)
+  const { id } = useParams<{ id: string }>();
+  const router = useRouter();
+  const { fetchEvent, loading, error, attendEvent, cancelAttendance } =
+    useEventStore();
+  const { user } = useUserStore();
+  const [event, setEvent] = React.useState<Event | null>(null);
 
   React.useEffect(() => {
-    const controller = new AbortController()
+    const controller = new AbortController();
 
-    const fetch = async(id: string) => {
-      const eventData = await fetchEvent(id)
-      setEvent(eventData)
-    }
+    const fetch = async (id: string) => {
+      const eventData = await fetchEvent(id);
+      setEvent(eventData);
+    };
     if (id) {
-      fetch(id)
+      fetch(id);
     }
     return () => {
-      controller.abort()
-    }
-  }, [id, fetchEvent])
-
+      controller.abort();
+    };
+  }, [id, fetchEvent]);
 
   if (loading) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <CircularProgress sx={{ display: "block", mx: "auto", my: 8 }} />
       </Container>
-    )
+    );
   }
 
   if (error) {
@@ -49,35 +58,64 @@ export default function EventDetailPage() {
           {error.message}
         </Alert>
       </Container>
-    )
+    );
   }
 
   if (!event) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Alert severity="error" sx={{ my: 2 }}>
-          Event not found
-        </Alert>
-        <Button variant="contained" onClick={() => router.push("/")} sx={{ mt: 2 }}>
+        <Button
+          variant="contained"
+          onClick={() => router.push("/")}
+          sx={{ mt: 2 }}
+        >
           Back to Dashboard
         </Button>
       </Container>
-    )
+    );
   }
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Paper elevation={2}>
-        <EventHeader event={event} isHost={user?.id === event.hostId} />
-        <EventInfo event={event} />
-        <EventActions
-          event={event}
-          user={user}
-          attendEvent={attendEvent}
-          cancelAttendance={cancelAttendance}
-        />
-        <AttendeesList event={event} />
-      </Paper>
+      <Typography
+        variant="h4"
+        component="h1"
+        gutterBottom
+        className={styles.detailHeading}
+      >
+        Event Details
+      </Typography>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 1, easing: "ease-out" }}
+      >
+        <Paper elevation={2}  className={styles.container}>
+          <Container
+           
+            sx={{
+              display: "grid",
+              gridTemplateColumns:{
+                xs: "1fr",           
+                md: "repeat(2,1fr)", 
+              },
+              gap: 2,
+            }}
+          >
+            <EventInfo event={event} />
+            <EventHeader event={event!} isHost={user?.id === event?.hostId} />
+          </Container>
+
+          <EventActions
+            event={event}
+            user={user}
+            attendEvent={attendEvent}
+            cancelAttendance={cancelAttendance}
+          />
+          <AttendeesList event={event} />
+        </Paper>
+      </motion.div>
     </Container>
-  )
+  );
 }

@@ -40,6 +40,7 @@ export const useEventStore = create<EventState>((set, get) => ({
 
   fetchEvent: async (id: string) => {
     try {
+      set({ loading: true, error: null })
       const response = await eventApi.getEvent(id)
       set({ event: response.data, loading: false })
       return response.data 

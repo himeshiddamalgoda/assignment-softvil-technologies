@@ -53,7 +53,7 @@ export function Filters({
           />
         </Grid>
         <Grid component="div" size={{ xs: 12, sm: 6, md: 4 }}>
-          <FormControl className={styles.input} size="small">
+          <FormControl className={styles.input} size="small" fullWidth >
             <InputLabel id="host-filter-label">Filter by Host</InputLabel>
             <Select
               labelId="host-filter-label"
@@ -61,8 +61,9 @@ export function Filters({
               value={hostFilter}
               label="Filter by Host"
               onChange={(e) => setHostFilter(e.target.value)}
+              fullWidth
             >
-              <MenuItem value="">
+              <MenuItem value="" >
                 <em>All Hosts</em>
               </MenuItem>
               {uniqueHosts.map((host) => (

@@ -9,7 +9,7 @@ import { useEventStore } from "@/store/event-store";
 import { useUserStore } from "@/store/user-store";
 import { CreateEventForm } from "./CreateEventForm";
 import style from "@/styles/form.module.scss";
-// import { Event } from "@/lib/mock-data";
+import { motion } from "motion/react";
 import { EventFormData } from "@/lib/validations/event";
 
 export default function CreateEvent() {
@@ -65,13 +65,20 @@ export default function CreateEvent() {
           Create New Event
         </Typography>
 
-        <CreateEventForm
-          onSubmit={handleSubmit}
-          loading={loading}
-          error={error}
-          success={success}
-          onSuccessClose={() => setSuccess(false)}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 1, easing: "ease-out" }}
+        >
+          <CreateEventForm
+            onSubmit={handleSubmit}
+            loading={loading}
+            error={error}
+            success={success}
+            onSuccessClose={() => setSuccess(false)}
+          />
+        </motion.div>
       </Container>
     </LocalizationProvider>
   );

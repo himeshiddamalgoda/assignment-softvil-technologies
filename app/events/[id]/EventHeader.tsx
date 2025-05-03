@@ -45,26 +45,34 @@ export default function EventHeader({ event, isHost }: EventHeaderProps) {
   };
 
   return (
-    <>
+    <Box  sx={{
+      display: "flex",
+      flexDirection:"column",
+      alignItems: "center",
+      margin: '15px',
+     
+    }}>
       <Box
         sx={{
           height: 300,
+          width:'100%',
           backgroundImage: `url(${
             event?.imageUrl || "/placeholder.svg?height=300&width=1200"
           })`,
           backgroundSize: "cover",
-          backgroundPosition: "center",
-          position: "relative",
+          backgroundPosition: "center", 
+          borderRadius:'12px'      
         }}
       >
-        {isHost && (
+        
+      </Box>
+
+      {isHost && (
           <Box
             sx={{
-              position: "absolute",
-              top: 16,
-              right: 16,
+              mt:'10px',
               display: "flex",
-              gap: 1,
+              gap: 5,
             }}
           >
             <IconButton
@@ -81,7 +89,6 @@ export default function EventHeader({ event, isHost }: EventHeaderProps) {
             </IconButton>
           </Box>
         )}
-      </Box>
 
       <Dialog
         open={deleteDialogOpen}
@@ -106,6 +113,6 @@ export default function EventHeader({ event, isHost }: EventHeaderProps) {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 }

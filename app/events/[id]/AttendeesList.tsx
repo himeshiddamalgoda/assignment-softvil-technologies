@@ -1,5 +1,6 @@
 import { Attendee } from "@/lib/mock-data"
 import { Box, Paper, Typography, List, ListItem, ListItemAvatar, ListItemText, Avatar, Chip } from "@mui/material"
+import styles from "@/styles/eventdetail.module.scss";
 
 interface AttendeesListProps {
   event: any
@@ -7,7 +8,7 @@ interface AttendeesListProps {
 
 const AttendeesList = ({ event }: AttendeesListProps) => {
   return (
-    <Paper elevation={1} sx={{ p: 3, height: "100%" }}>
+    <Paper elevation={1} sx={{ px: 3,mt:2, height: "100%" }} className={styles.containerAttendee}>
       <Typography variant="h6" gutterBottom fontWeight="bold">
         Attendees ({event.attendees.filter((a:Attendee) => a.status === "confirmed").length}/{event.capacity})
       </Typography>
