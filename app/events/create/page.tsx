@@ -9,7 +9,8 @@ import { useEventStore } from "@/store/event-store";
 import { useUserStore } from "@/store/user-store";
 import { CreateEventForm } from "./CreateEventForm";
 import style from "@/styles/form.module.scss";
-import { Event } from "@/lib/mock-data";
+// import { Event } from "@/lib/mock-data";
+import { EventFormData } from "@/lib/validations/event";
 
 export default function CreateEvent() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function CreateEvent() {
   const [error, setError] = React.useState<string | null>(null);
   const [success, setSuccess] = React.useState(false);
 
-  const handleSubmit = async (data: Event) => {
+  const handleSubmit = async (data: EventFormData) => {
     if (!user) {
       setError("You must be logged in to create an event");
       return;
@@ -32,6 +33,8 @@ export default function CreateEvent() {
 
       const newEvent = await createEvent({
         ...data,
+        startDate: data.startDate.toISOString(),
+        endDate: data.endDate.toISOString(),
         hostId: user.id,
         hostName: user.name,
         attendees: [],

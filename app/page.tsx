@@ -100,7 +100,13 @@ export default function Dashboard() {
           onCardClick={handleCardClick}
         />
       )}
+
+      {/* <TestErrorComponent /> */}
     </Container>
   );
 }
 
+//  function TestErrorComponent() {
+//   throw new Error("This is a test error for the error boundary.");
+//   return null
+// }

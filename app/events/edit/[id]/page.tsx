@@ -91,7 +91,7 @@ export default function EditEvent() {
     }
   }, [event, user, router, id]);
 
-  const onSubmit = async (data: Event) => {
+  const onSubmit = async (data: EventFormData) => {
     if (!event || !user || event.hostId !== user.id) {
       setError("Not authorized or event not found");
       return;
@@ -99,7 +99,11 @@ export default function EditEvent() {
 
     try {
       setSubmitting(true);
-      await updateEvent(event.id, data);
+      await updateEvent(event.id, {
+        ...data,
+        startDate: data.startDate.toISOString(),
+        endDate: data.endDate.toISOString(),
+      });
       setSuccess(true);
       setTimeout(() => router.push(`/events/${event.id}`), 1500);
     } catch (err) {

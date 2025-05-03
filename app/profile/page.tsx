@@ -64,7 +64,7 @@ export default function Profile() {
   // Filter events
   const hostedEvents = events.filter((event) => event.hostId === user?.id)
   const attendingEvents = events.filter((event) =>
-    event.attendees.some((attendee) => attendee.userId === user?.id && attendee.status === "confirmed"),
+    event?.attendees?.some((attendee) => attendee.userId === user?.id && attendee.status === "confirmed"),
   )
 
   const loading = userLoading || eventsLoading
@@ -107,13 +107,13 @@ export default function Profile() {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Paper elevation={2} sx={{ p: 4, mb: 4 }}>
         <Grid container spacing={4} alignItems="center">
-          <Grid item xs={12} md={3} sx={{ textAlign: { xs: "center", md: "left" } }}>
+          <Grid component='div' size={{ xs: 12, md: 3 }}sx={{ textAlign: { xs: "center", md: "left" } }}>
             <Avatar
               src={user.avatarUrl || "/placeholder.svg?height=120&width=120"}
               sx={{ width: 120, height: 120, mx: { xs: "auto", md: 0 } }}
             />
           </Grid>
-          <Grid item xs={12} md={9}>
+          <Grid component='div' size={{ xs: 12, md: 9 }}>
             <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
               {user.name}
             </Typography>
@@ -150,7 +150,7 @@ export default function Profile() {
           ) : (
             <Grid container spacing={3}>
               {attendingEvents.map((event) => (
-                <Grid item key={event.id} xs={12} sm={6} md={4}>
+                <Grid component='div' key={event.id} size={{ xs: 12, sm: 6, md: 4}}>
                   <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
                     <CardActionArea onClick={() => handleEventClick(event.id)}>
                       <CardMedia
@@ -203,7 +203,7 @@ export default function Profile() {
           ) : (
             <Grid container spacing={3}>
               {hostedEvents.map((event) => (
-                <Grid item key={event.id} xs={12} sm={6} md={4}>
+                <Grid component='div' key={event.id} size={{ xs: 12, sm: 6, md: 4 }}>
                   <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
                     <CardActionArea onClick={() => handleEventClick(event.id)}>
                       <CardMedia
@@ -229,7 +229,7 @@ export default function Profile() {
                           </Typography>
                         </Box>
                         <Typography variant="body2" color="primary">
-                          {event.attendees.length} attendees
+                          {event?.attendees?.length} attendees
                         </Typography>
                       </CardContent>
                     </CardActionArea>

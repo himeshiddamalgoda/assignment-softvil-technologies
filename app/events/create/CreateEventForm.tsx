@@ -63,7 +63,7 @@ export function CreateEventForm({
       )}
       <form onSubmit={handleSubmit(handleFormSubmit)} className={styles.form}>
         <Grid container spacing={2}>
-          <Grid item size={{ xs: 12, sm: 6, md: 6 }}>
+          <Grid component='div' size={{ xs: 12, sm: 6, md: 6 }}>
             <Controller
               name="title"
               control={control}
@@ -81,7 +81,7 @@ export function CreateEventForm({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12, sm: 6, md: 6 }}>
+          <Grid component='div' size={{ xs: 12, sm: 6, md: 6 }}>
             <Controller
               name="location"
               control={control}
@@ -99,7 +99,7 @@ export function CreateEventForm({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }}>
+          <Grid component='div' size={{ xs: 12 }}>
             <Controller
               name="description"
               control={control}
@@ -119,7 +119,7 @@ export function CreateEventForm({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
+          <Grid component='div' size={{ xs: 12, sm: 6, md: 4 }}>
             <Controller
               name="startDate"
               control={control}
@@ -142,7 +142,7 @@ export function CreateEventForm({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
+          <Grid component='div' size={{ xs: 12, sm: 6, md: 4 }}>
             <Controller
               name="endDate"
               control={control}
@@ -165,7 +165,7 @@ export function CreateEventForm({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12, sm: 6, md: 4 }}>
+          <Grid component='div' size={{ xs: 12, sm: 6, md: 4 }}>
             <Controller
               name="capacity"
               control={control}
@@ -193,7 +193,7 @@ export function CreateEventForm({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12, sm: 6 }}>
+          <Grid component='div' size={{ xs: 12, sm: 6 }}>
             <Controller
               name="imageUrl"
               control={control}
@@ -210,7 +210,7 @@ export function CreateEventForm({
             />
           </Grid>
 
-          <Grid item size={{ xs: 12 }} className={styles.actions}>
+          <Grid component='div' size={{ xs: 12 }} className={styles.actions}>
             <Button type="submit" variant="contained" disabled={loading}>
               {loading ? <CircularProgress size={20} /> : "Create Event"}
             </Button>
