@@ -29,7 +29,7 @@ import { LoadingState } from "@/components/dashboard/EventStates";
 export default function EditEvent() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const { fetchEvent, updateEvent, loading } = useEventStore();
+  const { fetchEvent, updateEvent, loading, success:stateSuccess } = useEventStore();
   const { user } = useUserStore();
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -94,7 +94,7 @@ export default function EditEvent() {
   }, [event, user, router, id]);
 
   const onSubmit = async (data: EventFormData) => {
-    if (!event || !user || event.hostId !== user.id) {
+    if (!event || !user || event.hostId !== user.id  ) {
       setError("Not authorized or event not found");
       return;
     }
@@ -129,12 +129,9 @@ export default function EditEvent() {
     );
   }
 
-  if (!event) {
+  if (!event && !stateSuccess) {
     return (
       <Container maxWidth="md" sx={{ py: 4 }}>
-        <Alert severity="error" sx={{ my: 2 }}>
-          Event not found
-        </Alert>
         <Button
           variant="contained"
           onClick={() => router.push("/")}

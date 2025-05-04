@@ -105,7 +105,7 @@ function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }} >
-                <Avatar alt={user?.name || "User"}  src={user?.avatarUrl || "/placeholder.svg?height=40&width=40"} className={styles.avatar}  />
+                <Avatar alt={user?.name || "User"}  src={user?.avatarUrl || "https://picsum.photos/200/300?random=6"} className={styles.avatar}  />
               </IconButton>
             </Tooltip>
             <Menu
@@ -119,10 +119,10 @@ function Navbar() {
               <MenuItem onClick={() => handleMenuItemClick("/profile")}>
                 <Typography textAlign="center">Profile</Typography>
               </MenuItem>
-              <MenuItem onClick={() => handleMenuItemClick("/settings")}>
-                <Typography textAlign="center">Settings</Typography>
+              <MenuItem onClick={() => handleMenuItemClick("/settings")} disabled>
+                <Typography textAlign="center" >Settings</Typography>
               </MenuItem>
-              <MenuItem onClick={() => handleMenuItemClick("/logout")}>
+              <MenuItem onClick={() => handleMenuItemClick("/logout")} disabled>
                 <Typography textAlign="center">Logout</Typography>
               </MenuItem>
             </Menu>

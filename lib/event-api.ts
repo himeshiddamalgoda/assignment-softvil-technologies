@@ -5,7 +5,7 @@ import api from "./axiosInstance";
 export const eventApi = {
   getEvents: async () => {
     const response = await api.get<Event[]>("/events");
-    return response; // AxiosResponse<Event[]>
+    return response; 
   },
 
   getEvent: async (id: string) => {

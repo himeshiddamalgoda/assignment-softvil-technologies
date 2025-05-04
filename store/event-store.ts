@@ -29,6 +29,7 @@ interface EventState {
   }) => Event[];
 }
 
+
 export const useEventStore = create<EventState>((set, get) => ({
   events: [],
   loading: false,

@@ -45,7 +45,7 @@ export function CreateEventForm({
       startDate: new Date(Date.now() + 86400000),
       endDate: new Date(Date.now() + 90000000),
       capacity: 50,
-      imageUrl: "/placeholder.svg?height=300&width=600",
+      imageUrl: "https://picsum.photos/200/300?random=6",
     },
   });
 

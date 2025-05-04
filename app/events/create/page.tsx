@@ -62,7 +62,7 @@ export default function CreateEvent() {
       setSuccess(true);
 
       redirectTimeoutRef.current = setTimeout(() => {
-        router.push(`/`);
+        router.push(`/events/${newEvent.id}`);
       }, 1500);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to create event");

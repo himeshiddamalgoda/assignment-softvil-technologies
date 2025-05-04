@@ -16,7 +16,6 @@ import { Event } from "@/types";
 import EventHeader from "./EventHeader";
 import EventInfo from "./EventInfo";
 import EventActions from "./EventActions";
-import AttendeesList from "./AttendeesList";
 import styles from "@/styles/eventdetail.module.scss";
 import { eventDetailConfig } from "@/utils/motion";
 import { ErrorState, LoadingState } from "@/components/dashboard/EventStates";
