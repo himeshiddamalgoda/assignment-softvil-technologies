@@ -1,7 +1,6 @@
 "use client"
 
-import type React from "react"
-import { useState } from "react"
+import React from "react"
 import {
   Container,
   Typography,
@@ -24,6 +23,7 @@ import { useRouter } from "next/navigation"
 import { format } from "date-fns"
 import { useUserStore } from "@/store/user-store"
 import { useEventStore } from "@/store/event-store"
+import { Attendee } from "@/types"
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -51,7 +51,7 @@ export default function Profile() {
   const router = useRouter()
   const { user, loading: userLoading, error: userError } = useUserStore()
   const { events, loading: eventsLoading, error: eventsError } = useEventStore()
-  const [tabValue, setTabValue] = useState(0)
+  const [tabValue, setTabValue] = React.useState<number>(0)
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue)
@@ -64,7 +64,7 @@ export default function Profile() {
   // Filter events
   const hostedEvents = events.filter((event) => event.hostId === user?.id)
   const attendingEvents = events.filter((event) =>
-    event?.attendees?.some((attendee) => attendee.userId === user?.id && attendee.status === "confirmed"),
+    event?.attendees?.some((attendee:Attendee) => attendee.userId === user?.id && attendee.status === "confirmed"),
   )
 
   const loading = userLoading || eventsLoading

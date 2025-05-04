@@ -12,7 +12,7 @@ import { motion } from "motion/react";
 import { format } from "date-fns";
 import { Event as EventIcon, LocationOn, Person } from "@mui/icons-material";
 import styles from "@/styles/dashboard.module.scss";
-import { Event } from "@/lib/mock-data";
+import { Event } from "@/types";
 
 export function EventCard({
   event,

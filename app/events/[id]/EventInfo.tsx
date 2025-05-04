@@ -1,9 +1,12 @@
 import { Box, Typography, Divider } from "@mui/material"
-import {  LocationOn, Person, AccessTime, Event } from "@mui/icons-material"
+import {  LocationOn, Person, AccessTime } from "@mui/icons-material"
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { format } from "date-fns"
+import { Event} from "@/types";
+
 
 interface EventInfoProps {
-  event: any
+  event: Event 
 }
 
 const EventInfo = ({ event }: EventInfoProps) => {
@@ -14,7 +17,7 @@ const EventInfo = ({ event }: EventInfoProps) => {
       </Typography>
 
       <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <Event color="action" sx={{ mr: 1 }} />
+        <EventAvailableIcon color="action" sx={{ mr: 1 }} />
         <Typography variant="body1">{format(new Date(event.startDate), "EEEE, MMMM d, yyyy")}</Typography>
       </Box>
 

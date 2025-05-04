@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
-import { Attendee, Event, mockEvents, mockUsers, User } from "./mock-data";
+import {  mockEvents, mockUsers } from "./mock-data";
+import { Attendee, Event, User } from "@/types";
 
 // Helper to simulate API delay
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

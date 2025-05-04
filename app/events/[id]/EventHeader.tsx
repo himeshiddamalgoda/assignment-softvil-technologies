@@ -14,9 +14,9 @@ import {
 import { Edit, Delete } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { Event } from "@/lib/mock-data";
-import { useEventStore } from "@/store/event-store";
+import { Event } from "@/types";
 
+import { useEventStore } from "@/store/event-store";
 interface EventHeaderProps {
   event: Event;
   isHost: boolean;
@@ -25,7 +25,8 @@ interface EventHeaderProps {
 export default function EventHeader({ event, isHost }: EventHeaderProps) {
   const router = useRouter();
   const { deleteEvent } = useEventStore();
-  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState<boolean>(false);
+
+  const [dialogOpen, setDialogOpen] = React.useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = React.useState<boolean>(false);
 
   const handleEdit = () => {
@@ -36,7 +37,7 @@ export default function EventHeader({ event, isHost }: EventHeaderProps) {
     try {
       setDeleteLoading(true);
       await deleteEvent(event?.id);
-      setDeleteDialogOpen(false);
+      setDialogOpen(false);
       router.push("/");
     } catch (error) {
       console.error("Failed to delete event:", error);
@@ -44,56 +45,57 @@ export default function EventHeader({ event, isHost }: EventHeaderProps) {
     }
   };
 
+  const handleDeleteClick = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDeleteCancel = () => {
+    setDialogOpen(false);
+  };
+
   return (
-    <Box  sx={{
-      display: "flex",
-      flexDirection:"column",
-      alignItems: "center",
-      margin: '15px',
-     
-    }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        margin: "15px",
+      }}
+    >
       <Box
         sx={{
           height: 300,
-          width:'100%',
+          width: "100%",
           backgroundImage: `url(${
             event?.imageUrl || "/placeholder.svg?height=300&width=1200"
           })`,
           backgroundSize: "cover",
-          backgroundPosition: "center", 
-          borderRadius:'12px'      
+          backgroundPosition: "center",
+          borderRadius: "12px",
         }}
-      >
-        
-      </Box>
+      ></Box>
 
       {isHost && (
-          <Box
-            sx={{
-              mt:'10px',
-              display: "flex",
-              gap: 5,
-            }}
+        <Box
+          sx={{
+            mt: "10px",
+            display: "flex",
+            gap: 5,
+          }}
+        >
+          <IconButton onClick={handleEdit} sx={{ bgcolor: "background.paper" }}>
+            <Edit />
+          </IconButton>
+          <IconButton
+            onClick={handleDeleteClick}
+            sx={{ bgcolor: "background.paper" }}
           >
-            <IconButton
-              onClick={handleEdit}
-              sx={{ bgcolor: "background.paper" }}
-            >
-              <Edit />
-            </IconButton>
-            <IconButton
-              onClick={() => setDeleteDialogOpen(true)}
-              sx={{ bgcolor: "background.paper" }}
-            >
-              <Delete />
-            </IconButton>
-          </Box>
-        )}
+            <Delete />
+          </IconButton>
+        </Box>
+      )}
 
-      <Dialog
-        open={deleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-      >
+      <Dialog open={dialogOpen} onClose={handleDeleteCancel}>
         <DialogTitle>Delete Event</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -102,7 +104,7 @@ export default function EventHeader({ event, isHost }: EventHeaderProps) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleDeleteCancel}>Cancel</Button>
           <Button
             onClick={handleDeleteConfirm}
             color="error"

@@ -15,47 +15,43 @@ import { useEventStore } from "@/store/event-store";
 
 import { Container, Typography } from "@mui/material";
 import styles from "@/styles/dashboard.module.scss";
+import { filterEvents, getUniqueHosts } from "@/utils/filters";
+import { getTotalPages, paginate } from "@/utils/pagination";
+
+export interface EventFilters {
+  searchTerm: string;
+  hostFilter: string;
+  startDateFilter: Date | null;
+}
 
 export default function Dashboard() {
   const router = useRouter();
   const { events, loading, error } = useEventStore();
 
-  const [searchTerm, setSearchTerm] = React.useState<string>("");
-  const [hostFilter, setHostFilter] = React.useState<string>("");
-  const [startDateFilter, setStartDateFilter] = React.useState<Date | null>(null);
+  const [filters, setFilters] = React.useState<EventFilters>({
+    searchTerm: "",
+    hostFilter: "",
+    startDateFilter: null as Date | null,
+  });
   const [page, setPage] = React.useState<number>(1);
 
   const eventsPerPage = 6;
 
-  const uniqueHosts = Array.from(
-    new Set(events.map((event) => event.hostId))
-  ).map((hostId) => {
-    const event = events.find((e) => e.hostId === hostId);
-    return { id: hostId, name: event?.hostName || "Unknown" };
-  });
+  const uniqueHosts = React.useMemo(() => getUniqueHosts(events), [events]);
 
-  const filteredEvents = events.filter((event) => {
-    if (
-      searchTerm &&
-      !event.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      !event.description.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      !event.location.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-      return false;
+  const filteredEvents = React.useMemo(
+    () => filterEvents(events, filters),
+    [events, filters]
+  );
 
-    if (hostFilter && event.hostId !== hostFilter) return false;
+  const paginatedEvents = React.useMemo(
+    () => paginate(filteredEvents, page, eventsPerPage),
+    [filteredEvents, page]
+  );
 
-    if (startDateFilter && new Date(event.startDate) < startDateFilter)
-      return false;
-
-    return true;
-  });
-
-  const totalPages = Math.ceil(filteredEvents.length / eventsPerPage);
-
-  const paginatedEvents = filteredEvents.slice(
-    (page - 1) * eventsPerPage,
-    page * eventsPerPage
+  const totalPages = React.useMemo(
+    () => getTotalPages(filteredEvents.length, eventsPerPage),
+    [filteredEvents]
   );
 
   const handlePageChange = (_: unknown, value: number) => {
@@ -79,20 +75,26 @@ export default function Dashboard() {
       </Typography>
 
       <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 1.2, easing: "ease-out" }}
-        >
-      <Filters
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        hostFilter={hostFilter}
-        setHostFilter={setHostFilter}
-        startDateFilter={startDateFilter}
-        setStartDateFilter={setStartDateFilter}
-        uniqueHosts={uniqueHosts}
-      />
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 1.2, easing: "ease-out" }}
+      >
+        <Filters
+          searchTerm={filters.searchTerm}
+          setSearchTerm={(val) =>
+            setFilters((f) => ({ ...f, searchTerm: val }))
+          }
+          hostFilter={filters.hostFilter}
+          setHostFilter={(val) =>
+            setFilters((f) => ({ ...f, hostFilter: val }))
+          }
+          startDateFilter={filters.startDateFilter}
+          setStartDateFilter={(val) =>
+            setFilters((f) => ({ ...f, startDateFilter: val }))
+          }
+          uniqueHosts={uniqueHosts}
+        />
       </motion.div>
 
       {loading && <LoadingState />}
@@ -100,19 +102,19 @@ export default function Dashboard() {
       {!loading && filteredEvents.length === 0 && <EmptyState />}
 
       {!loading && filteredEvents.length > 0 && (
-         <motion.div
-         initial={{ opacity: 0, y: 20 }}
-         animate={{ opacity: 1, y: 0 }}
-         exit={{ opacity: 0, y: -20 }}
-         transition={{ duration: 1, easing: "ease-out" }}
-       >
-        <EventsGrid
-          events={paginatedEvents}
-          page={page}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          onCardClick={handleCardClick}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 1, easing: "ease-out" }}
+        >
+          <EventsGrid
+            events={paginatedEvents}
+            page={page}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            onCardClick={handleCardClick}
+          />
         </motion.div>
       )}
 

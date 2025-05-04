@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { EventFormData, eventSchema } from "@/lib/validations/event";
 import styles from "@/styles/form.module.scss";
 
-type Props = {
+type CreateEventFormProps = {
   onSubmit: (data: EventFormData) => Promise<void>;
   loading: boolean;
   error: string | null;
@@ -30,7 +30,7 @@ export function CreateEventForm({
   error,
   success,
   onSuccessClose,
-}: Props) {
+}: CreateEventFormProps ) {
   const {
     control,
     handleSubmit,

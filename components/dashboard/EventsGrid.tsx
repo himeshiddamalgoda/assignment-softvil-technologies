@@ -2,7 +2,9 @@ import { Grid, Box, Pagination } from "@mui/material";
 import { EventCard } from "./EventCard";
 import { motion } from "motion/react";
 import styles from "@/styles/dashboard.module.scss";
-import { Event } from "@/lib/mock-data";
+import { Event } from "@/types";
+
+import { eventDetailConfig } from "@/utils/motion";
 
 export function EventsGrid({
   events,
@@ -20,23 +22,14 @@ export function EventsGrid({
   return (
     <Box className={styles.eventsContainer}>
       <Grid container spacing={3} rowSpacing={3}>
-        {events.map((event, index) => (
+        {events.map((event) => (
           <Grid
             component="div"
             key={event.id}
             size={{ xs: 12, sm: 6, md: 4 }}
             className={styles.cardWrapper}
           >
-            <motion.div
-              style={{ display: "contents" }} // Important!
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1.4,
-                delay: index * 0.2,
-                easing: "ease-out",
-              }}
-            >
+            <motion.div {...eventDetailConfig}>
               <EventCard event={event} onClick={onCardClick} />
             </motion.div>
           </Grid>

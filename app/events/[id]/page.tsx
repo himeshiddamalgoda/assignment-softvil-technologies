@@ -13,12 +13,14 @@ import {
 import { motion } from "motion/react";
 import { useEventStore } from "@/store/event-store";
 import { useUserStore } from "@/store/user-store";
-import { Event } from "@/lib/mock-data";
+import { Event } from "@/types";
+
 import EventHeader from "./EventHeader";
 import EventInfo from "./EventInfo";
 import EventActions from "./EventActions";
 import AttendeesList from "./AttendeesList";
 import styles from "@/styles/eventdetail.module.scss";
+import { eventDetailConfig } from "@/utils/motion";
 
 export default function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +28,7 @@ export default function EventDetailPage() {
   const { fetchEvent, loading, error, attendEvent, cancelAttendance } =
     useEventStore();
   const { user } = useUserStore();
+
   const [event, setEvent] = React.useState<Event | null>(null);
 
   React.useEffect(() => {
@@ -42,6 +45,9 @@ export default function EventDetailPage() {
       controller.abort();
     };
   }, [id, fetchEvent]);
+
+  const handleBack = () => router.push("/");
+  const isHost = user?.id === event?.hostId;
 
   if (loading) {
     return (
@@ -64,11 +70,7 @@ export default function EventDetailPage() {
   if (!event) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Button
-          variant="contained"
-          onClick={() => router.push("/")}
-          sx={{ mt: 2 }}
-        >
+        <Button variant="contained" onClick={handleBack} sx={{ mt: 2 }}>
           Back to Dashboard
         </Button>
       </Container>
@@ -85,31 +87,25 @@ export default function EventDetailPage() {
       >
         Event Details
       </Typography>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 1, easing: "ease-out" }}
-      >
-        <Paper elevation={2}  className={styles.container}>
+      <motion.div {...eventDetailConfig}>
+        <Paper elevation={2} className={styles.container}>
           <Container
-           
             sx={{
               display: "grid",
-              gridTemplateColumns:{
-                xs: "1fr",           
-                md: "repeat(2,1fr)", 
+              gridTemplateColumns: {
+                xs: "1fr",
+                md: "repeat(2,1fr)",
               },
               gap: 2,
             }}
           >
             <EventInfo event={event} />
-            <EventHeader event={event!} isHost={user?.id === event?.hostId} />
+            <EventHeader event={event!} isHost={isHost} />
           </Container>
 
           <EventActions
             event={event}
-            user={user}
+            user={user!}
             attendEvent={attendEvent}
             cancelAttendance={cancelAttendance}
           />

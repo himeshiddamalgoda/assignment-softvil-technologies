@@ -1,30 +1,57 @@
-import { Attendee } from "@/lib/mock-data"
-import { Box, Paper, Typography, List, ListItem, ListItemAvatar, ListItemText, Avatar, Chip } from "@mui/material"
+import React from "react";
+import { Event} from "@/types";
+
+import {
+  Box,
+  Paper,
+  Typography,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Avatar,
+  Chip,
+} from "@mui/material";
 import styles from "@/styles/eventdetail.module.scss";
 
 interface AttendeesListProps {
-  event: any
+  event: Event;
 }
 
-const AttendeesList = ({ event }: AttendeesListProps) => {
+export default function AttendeesList({ event }: AttendeesListProps) {
+  const confirmedAttendees = React.useMemo(
+    () => event?.attendees?.filter((a) => a.status === "confirmed"),
+    [event.attendees]
+  );
+
+  const pendingAttendees = React.useMemo(
+    () => event?.attendees?.filter((a) => a.status === "pending"),
+    [event.attendees]
+  );
+
   return (
-    <Paper elevation={1} sx={{ px: 3,mt:2, height: "100%" }} className={styles.containerAttendee}>
+    <Paper
+      elevation={1}
+      sx={{ px: 3, mt: 2, height: "100%" }}
+      className={styles.containerAttendee}
+    >
       <Typography variant="h6" gutterBottom fontWeight="bold">
-        Attendees ({event.attendees.filter((a:Attendee) => a.status === "confirmed").length}/{event.capacity})
+        Attendees ({confirmedAttendees?.length}/{event.capacity})
       </Typography>
 
-      {event.attendees.length > 0 ? (
+      {confirmedAttendees && confirmedAttendees?.length > 0 ? (
         <List>
-          {event.attendees
-            .filter((attendee:Attendee) => attendee.status === "confirmed")
-            .map((attendee:Attendee) => (
-              <ListItem key={attendee.userId} disablePadding sx={{ mb: 1 }}>
-                <ListItemAvatar>
-                  <Avatar src={attendee.avatarUrl || "/placeholder.svg?height=40&width=40"} />
-                </ListItemAvatar>
-                <ListItemText primary={attendee.userName} />
-              </ListItem>
-            ))}
+          {confirmedAttendees?.map((attendee) => (
+            <ListItem key={attendee.userId} disablePadding sx={{ mb: 1 }}>
+              <ListItemAvatar>
+                <Avatar
+                  src={attendee.avatarUrl || "/placeholder.svg?height=40&width=40"}
+                  alt={attendee.userName}
+                />
+              </ListItemAvatar>
+              <ListItemText primary={attendee.userName || "Unnamed User"} />
+            </ListItem>
+          ))}
         </List>
       ) : (
         <Typography variant="body2" color="text.secondary">
@@ -32,22 +59,23 @@ const AttendeesList = ({ event }: AttendeesListProps) => {
         </Typography>
       )}
 
-      {event.attendees.some((a:Attendee) => a.status === "pending") && (
+      {pendingAttendees && pendingAttendees.length > 0 && (
         <Box sx={{ mt: 2 }}>
           <Typography variant="subtitle2" gutterBottom>
-            Pending ({event.attendees.filter((a:Attendee) => a.status === "pending").length})
+            Pending ({pendingAttendees.length})
           </Typography>
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-            {event.attendees
-              .filter((a:Attendee) => a.status === "pending")
-              .map((attendee:Attendee) => (
-                <Chip key={attendee.userId} label={attendee.userName} size="small" variant="outlined" />
-              ))}
+            {pendingAttendees.map((attendee) => (
+              <Chip
+                key={attendee.userId}
+                label={attendee.userName || "Unnamed"}
+                size="small"
+                variant="outlined"
+              />
+            ))}
           </Box>
         </Box>
       )}
     </Paper>
-  )
+  );
 }
-
-export default AttendeesList

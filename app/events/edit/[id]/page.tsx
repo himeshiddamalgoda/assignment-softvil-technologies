@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import EventForm from "./EditEventForm";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -22,7 +22,10 @@ import {
   Snackbar,
 } from "@mui/material";
 import styles from "@/styles/form.module.scss";
-import { Event } from "@/lib/mock-data";
+import { Event } from "@/types";
+
+import { createFormConfig } from "@/utils/motion";
+import { motion } from "framer-motion";
 
 export default function EditEvent() {
   const { id } = useParams<{ id: string }>();
@@ -69,7 +72,7 @@ export default function EditEvent() {
   });
 
   // Set form values when event data is available
-  useEffect(() => {
+  React.useEffect(() => {
     if (event) {
       reset({
         title: event.title,
@@ -84,7 +87,7 @@ export default function EditEvent() {
   }, [event, reset]);
 
   // Check if user is authorized to edit this event
-  useEffect(() => {
+  React.useEffect(() => {
     if (event && user && event.hostId !== user.id) {
       setError("You are not authorized to edit this event");
       setTimeout(() => router.push(`/events/${id}`), 2000);
@@ -159,15 +162,16 @@ export default function EditEvent() {
               {error}
             </Alert>
           )}
-
-          <EventForm
-            control={control}
-            errors={errors}
-            submitting={submitting}
-            onCancel={() => router.push(`/events/${id}`)}
-            onSubmit={handleSubmit(onSubmit)}
-            submitLabel="Update Event"
-          />
+          <motion.div {...createFormConfig}>
+            <EventForm
+              control={control}
+              errors={errors}
+              submitting={submitting}
+              onCancel={() => router.push(`/events/${id}`)}
+              onSubmit={handleSubmit(onSubmit)}
+              submitLabel="Update Event"
+            />
+          </motion.div>
         </Paper>
 
         <Snackbar

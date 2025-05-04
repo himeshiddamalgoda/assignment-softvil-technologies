@@ -1,32 +1,24 @@
+import React from "react";
 import { Box, Button } from "@mui/material";
 import { Share } from "@mui/icons-material";
-import { Attendee } from "@/lib/mock-data";
-
+import { Attendee, Event, User } from "@/types";
 interface EventActionsProps {
-  event: any;
-  user: any;
+  event: Event;
+  user: User;
   attendEvent: (eventId: string, userId: string) => void;
   cancelAttendance: (eventId: string, userId: string) => void;
 }
 
-const EventActions = ({
+export default function EventActions({
   event,
   user,
   attendEvent,
   cancelAttendance,
-}: EventActionsProps) => {
-  const isAttending = event.attendees.some(
-    (attendee: Attendee) =>
-      attendee.userId === user?.id && attendee.status === "confirmed"
-  );
-  const isPending = event.attendees.some(
-    (attendee: Attendee) =>
-      attendee.userId === user?.id && attendee.status === "pending"
-  );
-  const isCancelled = event.attendees.some(
-    (attendee: Attendee) =>
-      attendee.userId === user?.id && attendee.status === "cancelled"
-  );
+}: EventActionsProps) {
+  const currentStatus = React.useMemo(() => {
+    const match = event?.attendees?.find((attendee: Attendee) => attendee.userId === user?.id);
+    return match?.status ?? null;
+  }, [event.attendees, user?.id]);
 
   const handleAttend = () => {
     attendEvent(event.id, user.id);
@@ -36,15 +28,22 @@ const EventActions = ({
     cancelAttendance(event.id, user.id);
   };
 
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+    } catch (err) {
+      console.error("Failed to copy URL:", err);
+    }
+  };
+
   return (
-    <Box sx={{ mx: "15px", display: "flex", gap: 2 }}>
-      {!isAttending && !isPending && !isCancelled ? (
+    <Box sx={{ mx: 2, display: "flex", gap: 2 }}>
+      {currentStatus === null ? (
         <Button
           variant="contained"
           size="small"
-          // disabled={attendLoading}
           onClick={handleAttend}
-          // startIcon={attendLoading ? <CircularProgress size={20} /> : null}
+          aria-label="Attend Event"
         >
           Attend Event
         </Button>
@@ -53,23 +52,22 @@ const EventActions = ({
           variant="outlined"
           color="error"
           size="small"
-          // disabled={attendLoading}
           onClick={handleCancelAttendance}
-          // startIcon={attendLoading ? <CircularProgress size={20} /> : null}
+          aria-label="Cancel Attendance"
         >
-          {isCancelled ? "Cancelled" : "Cancel Attendance"}
+          {currentStatus === "cancelled" ? "Cancelled" : "Cancel Attendance"}
         </Button>
       )}
+
       <Button
         variant="outlined"
-        size="small"  
+        size="small"
         startIcon={<Share />}
-        onClick={() => navigator.clipboard.writeText(window.location.href)}
+        onClick={handleShare}
+        aria-label="Share Event"
       >
         Share
       </Button>
     </Box>
   );
-};
-
-export default EventActions;
+}
