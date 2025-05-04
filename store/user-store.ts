@@ -7,7 +7,6 @@ interface UserState {
   loading: boolean;
   error: Error | null;
 
-  // Actions
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   updateUser: (userData: Partial<User>) => Promise<void>;

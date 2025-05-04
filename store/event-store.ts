@@ -1,4 +1,3 @@
-// store/eventStore.ts
 import { create } from "zustand";
 
 import { Event } from "@/types";

@@ -158,7 +158,7 @@ export default function Profile() {
                 <EventCard
                   key={event.id}
                   event={event}
-                  onClick={() => handleEventClick(event.id)} // Passing onClick handler
+                  onClick={() => handleEventClick(event.id)} 
                   showAttendees={false}
                 />
               ))}

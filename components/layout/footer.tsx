@@ -20,10 +20,10 @@ export default function Footer() {
       <Container maxWidth="lg">
         <Toolbar disableGutters className={styles.toolbar}>
           <Box className={styles.social}>
-            <IconButton href="https://github.com/your-repo" aria-label="GitHub" size="small">
+            <IconButton href="https://github.com/himeshiddamalgoda/assignment-softvil-technologies" aria-label="GitHub" size="small">
               <GitHubIcon fontSize="small" />
             </IconButton>
-            <IconButton href="https://www.linkedin.com/company/your-company/" aria-label="LinkedIn" size="small">
+            <IconButton href="https://www.linkedin.com/in/himesh-iddamalgoda/" aria-label="LinkedIn" size="small">
               <LinkedInIcon fontSize="small" />
             </IconButton>
             <IconButton href="mailto:support@eventhub.com" aria-label="Email" size="small">
