@@ -17,6 +17,7 @@ import { Container, Typography } from "@mui/material";
 import styles from "@/styles/dashboard.module.scss";
 import { filterEvents, getUniqueHosts } from "@/utils/filters";
 import { getTotalPages, paginate } from "@/utils/pagination";
+import { eventDetailConfig } from "@/utils/motion";
 
 export interface EventFilters {
   searchTerm: string;
@@ -26,7 +27,7 @@ export interface EventFilters {
 
 export default function Dashboard() {
   const router = useRouter();
-  const { events, loading, error } = useEventStore();
+  const { events, loading, error , success} = useEventStore();
 
   const [filters, setFilters] = React.useState<EventFilters>({
     searchTerm: "",
@@ -99,15 +100,10 @@ export default function Dashboard() {
 
       {loading && <LoadingState />}
       {error && <ErrorState error={error} />}
-      {!loading && filteredEvents.length === 0 && <EmptyState />}
+      {!loading && success && filteredEvents.length === 0 && <EmptyState />}
 
       {!loading && filteredEvents.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 1, easing: "ease-out" }}
-        >
+        <motion.div {...eventDetailConfig}>
           <EventsGrid
             events={paginatedEvents}
             page={page}

@@ -14,10 +14,8 @@ import { EventFormData, eventSchema } from "@/lib/validations/event";
 import {
   Container,
   Typography,
-  Box,
   Paper,
   Button,
-  CircularProgress,
   Alert,
   Snackbar,
 } from "@mui/material";
@@ -26,6 +24,7 @@ import { Event } from "@/types";
 
 import { createFormConfig } from "@/utils/motion";
 import { motion } from "framer-motion";
+import { LoadingState } from "@/components/dashboard/EventStates";
 
 export default function EditEvent() {
   const { id } = useParams<{ id: string }>();
@@ -107,6 +106,12 @@ export default function EditEvent() {
         startDate: data.startDate.toISOString(),
         endDate: data.endDate.toISOString(),
       });
+      console.table({
+        id: event.id,
+        ...data,
+        startDate: data.startDate.toISOString(),
+        endDate: data.endDate.toISOString(),
+      });
       setSuccess(true);
       setTimeout(() => router.push(`/events/${event.id}`), 1500);
     } catch (err) {
@@ -119,9 +124,7 @@ export default function EditEvent() {
   if (loading) {
     return (
       <Container maxWidth="md" sx={{ py: 4 }}>
-        <Box sx={{ display: "flex", justifyContent: "center", my: 8 }}>
-          <CircularProgress />
-        </Box>
+        <LoadingState />
       </Container>
     );
   }

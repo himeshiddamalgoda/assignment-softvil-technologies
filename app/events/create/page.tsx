@@ -50,11 +50,19 @@ export default function CreateEvent() {
         hostName: user.name,
         attendees: [],
       });
-
+      console.table({
+        id: newEvent.id,
+        ...data,
+        startDate: data.startDate.toISOString(),
+        endDate: data.endDate.toISOString(),
+        hostId: user.id,
+        hostName: user.name,
+        attendees: [],
+      });
       setSuccess(true);
 
       redirectTimeoutRef.current = setTimeout(() => {
-        router.push(`/events/${newEvent.id}`);
+        router.push(`/`);
       }, 1500);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to create event");

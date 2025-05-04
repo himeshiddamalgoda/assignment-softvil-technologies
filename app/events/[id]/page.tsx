@@ -4,9 +4,7 @@ import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   Container,
-  Alert,
   Button,
-  CircularProgress,
   Paper,
   Typography,
 } from "@mui/material";
@@ -21,15 +19,16 @@ import EventActions from "./EventActions";
 import AttendeesList from "./AttendeesList";
 import styles from "@/styles/eventdetail.module.scss";
 import { eventDetailConfig } from "@/utils/motion";
+import { ErrorState, LoadingState } from "@/components/dashboard/EventStates";
 
 export default function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const { fetchEvent, loading, error, attendEvent, cancelAttendance } =
-    useEventStore();
+  const { fetchEvent, loading, error, success} = useEventStore();
   const { user } = useUserStore();
 
   const [event, setEvent] = React.useState<Event | null>(null);
+
 
   React.useEffect(() => {
     const controller = new AbortController();
@@ -52,7 +51,7 @@ export default function EventDetailPage() {
   if (loading) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <CircularProgress sx={{ display: "block", mx: "auto", my: 8 }} />
+        <LoadingState/>
       </Container>
     );
   }
@@ -60,9 +59,7 @@ export default function EventDetailPage() {
   if (error) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Alert severity="error" sx={{ my: 2 }}>
-          {error.message}
-        </Alert>
+       <ErrorState error={error} />
       </Container>
     );
   }
@@ -70,9 +67,9 @@ export default function EventDetailPage() {
   if (!event) {
     return (
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Button variant="contained" onClick={handleBack} sx={{ mt: 2 }}>
+        {success && <Button variant="contained" onClick={handleBack} sx={{ mt: 2 }}>
           Back to Dashboard
-        </Button>
+        </Button>}
       </Container>
     );
   }
@@ -106,10 +103,8 @@ export default function EventDetailPage() {
           <EventActions
             event={event}
             user={user!}
-            attendEvent={attendEvent}
-            cancelAttendance={cancelAttendance}
           />
-          <AttendeesList event={event} />
+          {/* <AttendeesList event={event} /> */}
         </Paper>
       </motion.div>
     </Container>

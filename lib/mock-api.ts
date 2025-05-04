@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
-import {  mockEvents, mockUsers } from "./mock-data";
-import { Attendee, Event, User } from "@/types";
+import {  mockUsers } from "./mock-data";
+import {  User } from "@/types";
 
 // Helper to simulate API delay
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -84,170 +84,170 @@ export const userApi = {
   },
 };
 
-// Events API
-export const eventApi = {
-  getEvents: async () => {
-    try {
-      // In a real app: return await api.get('/events')
+// // Events API
+// export const eventApi = {
+//   getEvents: async () => {
+//     try {
+//       // In a real app: return await api.get('/events')
 
-      // For mock, return all events
-      return await createResponse(mockEvents);
-    } catch (error) {
-      console.error("Error fetching events:", error);
-      throw error;
-    }
-  },
+//       // For mock, return all events
+//       return await createResponse(mockEvents);
+//     } catch (error) {
+//       console.error("Error fetching events:", error);
+//       throw error;
+//     }
+//   },
 
-  getEvent: async (id: string) => {
-    try {
-      // In a real app: return await api.get(`/events/${id}`)
+//   getEvent: async (id: string) => {
+//     try {
+//       // In a real app: return await api.get(`/events/${id}`)
 
-      // For mock, find event by id
-      const event = mockEvents.find((e) => e.id === id);
-      if (!event) {
-        throw new Error("Event not found");
-      }
-      return await createResponse(event);
-    } catch (error) {
-      console.error(`Error fetching event ${id}:`, error);
-      throw error;
-    }
-  },
+//       // For mock, find event by id
+//       const event = mockEvents.find((e) => e.id === id);
+//       // if (!event) {
+//       //   throw new Error("Event not found");
+//       // }
+//       return await createResponse(event);
+//     } catch (error) {
+//       console.error(`Error fetching event ${id}:`, error);
+//       throw error;
+//     }
+//   },
 
-  createEvent: async (
-    eventData: Omit<Event, "id" | "createdAt" | "updatedAt">
-  ) => {
-    try {
-      // In a real app: return await api.post('/events', eventData)
+//   createEvent: async (
+//     eventData: Omit<Event, "id" | "createdAt" | "updatedAt">
+//   ) => {
+//     try {
+//       // In a real app: return await api.post('/events', eventData)
 
-      // For mock, create new event
-      const newEvent: Event = {
-        ...eventData,
-        id: `event-${mockEvents.length + 1}`,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
+//       // For mock, create new event
+//       const newEvent: Event = {
+//         ...eventData,
+//         id: `event-${mockEvents.length + 1}`,
+//         createdAt: new Date().toISOString(),
+//         updatedAt: new Date().toISOString(),
+//       };
 
-      return await createResponse(newEvent);
-    } catch (error) {
-      console.error("Error creating event:", error);
-      throw error;
-    }
-  },
+//       return await createResponse(newEvent);
+//     } catch (error) {
+//       console.error("Error creating event:", error);
+//       throw error;
+//     }
+//   },
 
-  updateEvent: async (id: string, eventData: Partial<Event>) => {
-    try {
-      // In a real app: return await api.patch(`/events/${id}`, eventData)
+//   updateEvent: async (id: string, eventData: Partial<Event>) => {
+//     try {
+//       // In a real app: return await api.patch(`/events/${id}`, eventData)
 
-      // For mock, find and update event
-      const eventIndex = mockEvents.findIndex((e) => e.id === id);
-      if (eventIndex === -1) {
-        throw new Error("Event not found");
-      }
+//       // For mock, find and update event
+//       const eventIndex = mockEvents.findIndex((e) => e.id === id);
+//       if (eventIndex === -1) {
+//         throw new Error("Event not found");
+//       }
 
-      const updatedEvent = {
-        ...mockEvents[eventIndex],
-        ...eventData,
-        updatedAt: new Date().toISOString(),
-      };
+//       const updatedEvent = {
+//         ...mockEvents[eventIndex],
+//         ...eventData,
+//         updatedAt: new Date().toISOString(),
+//       };
 
-      return await createResponse(updatedEvent);
-    } catch (error) {
-      console.error(`Error updating event ${id}:`, error);
-      throw error;
-    }
-  },
+//       return await createResponse(updatedEvent);
+//     } catch (error) {
+//       console.error(`Error updating event ${id}:`, error);
+//       throw error;
+//     }
+//   },
 
-  deleteEvent: async (id: string) => {
-    try {
-      // In a real app: return await api.delete(`/events/${id}`)
+//   deleteEvent: async (id: string) => {
+//     try {
+//       // In a real app: return await api.delete(`/events/${id}`)
 
-      // For mock, just return success
-      return await createResponse({ success: true });
-    } catch (error) {
-      console.error(`Error deleting event ${id}:`, error);
-      throw error;
-    }
-  },
+//       // For mock, just return success
+//       return await createResponse({ success: true });
+//     } catch (error) {
+//       console.error(`Error deleting event ${id}:`, error);
+//       throw error;
+//     }
+//   },
 
-  attendEvent: async (eventId: string, userId: string) => {
-    try {
-      // In a real app: return await api.post(`/events/${eventId}/attend`, { userId })
+//   attendEvent: async (eventId: string, userId: string) => {
+//     try {
+//       // In a real app: return await api.post(`/events/${eventId}/attend`, { userId })
 
-      // For mock, find event and add attendee
-      const eventIndex = mockEvents.findIndex((e) => e.id === eventId);
-      if (eventIndex === -1) {
-        throw new Error("Event not found");
-      }
+//       // For mock, find event and add attendee
+//       const eventIndex = mockEvents.findIndex((e) => e.id === eventId);
+//       if (eventIndex === -1) {
+//         throw new Error("Event not found");
+//       }
 
-      // Find user
-      const user = mockUsers.find((u) => u.id === userId);
-      if (!user) {
-        throw new Error("User not found");
-      }
+//       // Find user
+//       const user = mockUsers.find((u) => u.id === userId);
+//       if (!user) {
+//         throw new Error("User not found");
+//       }
 
-      // Check if already attending
-      const attendeeIndex = mockEvents[eventIndex]?.attendees?.findIndex(
-        (a: Attendee) => a.userId === userId
-      );
+//       // Check if already attending
+//       const attendeeIndex = mockEvents[eventIndex]?.attendees?.findIndex(
+//         (a: Attendee) => a.userId === userId
+//       );
 
-      let updatedEvent: Event;
+//       let updatedEvent: Event;
 
-      if (attendeeIndex !== -1) {
-        // Update status if already in the list
-        updatedEvent = {
-          ...mockEvents[eventIndex],
-          attendees: mockEvents[eventIndex]?.attendees?.map((a) =>
-            a.userId === userId ? { ...a, status: "confirmed" } : a
-          ),
-          updatedAt: new Date().toISOString(),
-        };
-      } else {
-        // Add new attendee
-        updatedEvent = {
-          ...mockEvents[eventIndex],
-          attendees: [
-            ...mockEvents[eventIndex].attendees?? [],
-            {
-              userId,
-              userName: user.name,
-              avatarUrl: user.avatarUrl,
-              status: "confirmed",
-            },
-          ],
-          updatedAt: new Date().toISOString(),
-        };
-      }
+//       if (attendeeIndex !== -1) {
+//         // Update status if already in the list
+//         updatedEvent = {
+//           ...mockEvents[eventIndex],
+//           attendees: mockEvents[eventIndex]?.attendees?.map((a) =>
+//             a.userId === userId ? { ...a, status: "confirmed" } : a
+//           ),
+//           updatedAt: new Date().toISOString(),
+//         };
+//       } else {
+//         // Add new attendee
+//         updatedEvent = {
+//           ...mockEvents[eventIndex],
+//           attendees: [
+//             ...mockEvents[eventIndex].attendees?? [],
+//             {
+//               userId,
+//               userName: user.name,
+//               avatarUrl: user.avatarUrl,
+//               status: "confirmed",
+//             },
+//           ],
+//           updatedAt: new Date().toISOString(),
+//         };
+//       }
 
-      return await createResponse(updatedEvent);
-    } catch (error) {
-      console.error(`Error attending event ${eventId}:`, error);
-      throw error;
-    }
-  },
+//       return await createResponse(updatedEvent);
+//     } catch (error) {
+//       console.error(`Error attending event ${eventId}:`, error);
+//       throw error;
+//     }
+//   },
 
-  cancelAttendance: async (eventId: string, userId: string) => {
-    try {
-      // In a real app: return await api.post(`/events/${eventId}/cancel`, { userId })
+//   cancelAttendance: async (eventId: string, userId: string) => {
+//     try {
+//       // In a real app: return await api.post(`/events/${eventId}/cancel`, { userId })
 
-      // For mock, find event and update attendee status
-      const eventIndex = mockEvents.findIndex((e) => e.id === eventId);
-      if (eventIndex === -1) {
-        throw new Error("Event not found");
-      }
+//       // For mock, find event and update attendee status
+//       const eventIndex = mockEvents.findIndex((e) => e.id === eventId);
+//       if (eventIndex === -1) {
+//         throw new Error("Event not found");
+//       }
 
-      const updatedEvent = {
-        ...mockEvents[eventIndex],
-        attendees: mockEvents[eventIndex]?.attendees?.map((a) =>
-          a.userId === userId ? { ...a, status: "cancelled" } : a
-        ),
-        updatedAt: new Date().toISOString(),
-      };
+//       const updatedEvent = {
+//         ...mockEvents[eventIndex],
+//         attendees: mockEvents[eventIndex]?.attendees?.map((a) =>
+//           a.userId === userId ? { ...a, status: "cancelled" } : a
+//         ),
+//         updatedAt: new Date().toISOString(),
+//       };
 
-      return await createResponse(updatedEvent);
-    } catch (error) {
-      console.error(`Error cancelling attendance for event ${eventId}:`, error);
-      throw error;
-    }
-  },
-};
+//       return await createResponse(updatedEvent);
+//     } catch (error) {
+//       console.error(`Error cancelling attendance for event ${eventId}:`, error);
+//       throw error;
+//     }
+//   },
+// };
